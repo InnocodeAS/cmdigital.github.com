@@ -1,5 +1,5 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <xsl:variable name="page">projects</xsl:variable>
+  <xsl:variable name="page">calendar</xsl:variable>
 
   <xsl:template match="/labs">
 
@@ -37,20 +37,27 @@
     <xsl:value-of select="@name"/>
   </xsl:template>
 
-
   <xsl:template match="schedule">
-      <section>
-        <h2><xsl:value-of select="@date"/></h2>
-        <ol>
-          <xsl:for-each select="item">
-            <li>
-              <xsl:apply-templates mode="timetables" select="id(@user)"/>
-              <xsl:apply-templates mode="timetables" select="id(@project)"/>
-              <time><xsl:value-of select="@time"/></time>
-            </li>
-          </xsl:for-each>
-        </ol>
-      </section>
+    <section>
+      <h2><xsl:value-of select="@date"/></h2>
+      <ol>
+        <xsl:apply-templates mode="timetables" select="item"/>
+      </ol>
+    </section>
+  </xsl:template>
+
+  <xsl:template match="item" mode="timetables">
+    <xsl:param name="uID">
+      <xsl:value-of select="@user"/>
+    </xsl:param>
+    <xsl:param name="pID">
+      <xsl:value-of select="@project"/>
+    </xsl:param>
+    <li>
+      <xsl:apply-templates mode="timetables" select="//user[@id = $uID]"/>
+      <xsl:apply-templates mode="timetables" select="//project[@id = $pID]"/>
+      <time><xsl:value-of select="@time"/></time>
+    </li>
   </xsl:template>
 
   <xsl:template mode="timetables" match="user">
