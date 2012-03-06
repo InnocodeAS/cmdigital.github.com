@@ -4,9 +4,29 @@ define (["XSLT", "EventMachine"],function(XSLT,EventMachine){
 
     var init_ = function(){
       XSLT(this_.data, this_.timetableTMPL, function(HTML){
-        console.log(HTML,this_.container);
         this_.container.appendChild(HTML);
-      })
+      });
+
+      document.getElementById("projectBtn").addEventListener("click",function(e){
+
+        XSLT(this_.data, this_.timetableTMPL, function(HTML){
+          this_.container.innerHTML = "";
+          this_.container.appendChild(HTML);
+        }, {page:'projects'});
+
+        e.preventDefault();
+      } ,false);
+
+      document.getElementById("calendarsBtn").addEventListener("click",function(e){
+
+        XSLT(this_.data, this_.timetableTMPL, function(HTML){
+          this_.container.innerHTML = "";
+          this_.container.appendChild(HTML);
+        }, {page:'calendar'});
+
+        e.preventDefault();
+      } ,false);
+
     };
     init_();
   };
@@ -17,5 +37,7 @@ define (["XSLT", "EventMachine"],function(XSLT,EventMachine){
     container: document.getElementById("content")
 
   };
-  return new CMDLabs();
+  var cmdLabs = new CMDLabs();
+
+  return cmdLabs;
 })
